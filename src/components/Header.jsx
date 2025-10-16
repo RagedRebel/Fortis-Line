@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,21 +25,21 @@ function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <a href="#home" className="text-gray-700 hover:text-blue-700 transition font-medium">
+            <Link to="/" className="text-gray-700 hover:text-blue-700 transition font-medium">
               Home
-            </a>
+            </Link>
             <a href="#about" className="text-gray-700 hover:text-blue-700 transition font-medium">
               About
             </a>
             <a href="#resources" className="text-gray-700 hover:text-blue-700 transition font-medium">
               Resources
             </a>
-            <a href="#contact" className="text-gray-700 hover:text-blue-700 transition font-medium">
-              Contact
-            </a>
-            <button className="bg-gradient-to-r from-blue-700 to-indigo-700 text-white px-6 py-2.5 rounded-lg hover:shadow-lg transform hover:scale-105 transition duration-200 font-semibold">
+            <Link to="/track" className="text-gray-700 hover:text-blue-700 transition font-medium">
+              Track Complaint
+            </Link>
+            <Link to="/form" className="bg-gradient-to-r from-blue-700 to-indigo-700 text-white px-6 py-2.5 rounded-lg hover:shadow-lg transform hover:scale-105 transition duration-200 font-semibold">
               🚨 Report Incident
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -71,12 +72,12 @@ function Header() {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <a
-              href="#home"
+            <Link
+              to="/"
               className="block px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
             >
               Home
-            </a>
+            </Link>
             <a
               href="#about"
               className="block px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
@@ -89,15 +90,15 @@ function Header() {
             >
               Resources
             </a>
-            <a
-              href="#contact"
+            <Link
+              to="/track"
               className="block px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
             >
-              Contact
-            </a>
-            <button className="w-full text-left px-3 py-2 rounded-md bg-gradient-to-r from-blue-700 to-indigo-700 text-white font-semibold hover:shadow-lg transition">
+              Track Complaint
+            </Link>
+            <Link to="/form" className="block w-full text-left px-3 py-2 rounded-md bg-gradient-to-r from-blue-700 to-indigo-700 text-white font-semibold hover:shadow-lg transition">
               🚨 Report Incident
-            </button>
+            </Link>
           </div>
         </div>
       )}

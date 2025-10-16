@@ -1,6 +1,7 @@
 import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import { Link } from 'react-router-dom'
 
 function App() {
   return (
@@ -8,9 +9,9 @@ function App() {
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50 text-gray-800">
         <Header />
 
-        {/* Hero Section */}
+   
         <section className="relative flex flex-col items-center justify-center text-center py-24 px-6 bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-700 text-white overflow-hidden">
-          {/* Background Pattern */}
+
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
@@ -27,17 +28,17 @@ function App() {
               Creating a safe and inclusive campus for every student. Report ragging anonymously and access instant help from our anti-ragging committee.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-blue-700 font-bold px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition transform duration-200">
+              <Link to="/form" className="bg-white text-blue-700 font-bold px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition transform duration-200">
                 📚 Know Your Rights
-              </button>
-              <button className="bg-red-600 text-white font-bold px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition transform duration-200">
+              </Link>
+              <Link to="/form" className="bg-red-600 text-white font-bold px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition transform duration-200">
                 🚨 Emergency Help
-              </button>
+              </Link>
             </div>
           </div>
         </section>
 
-        {/* Stats Section */}
+
         <section className="py-12 px-6 bg-white shadow-md">
           <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
@@ -59,7 +60,7 @@ function App() {
           </div>
         </section>
 
-        {/* Features Section */}
+
         <section className="py-20 px-6 bg-gradient-to-b from-gray-50 to-white">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
@@ -105,7 +106,6 @@ function App() {
           </div>
         </section>
 
-        {/* Additional Features */}
         <section className="py-20 px-6 bg-gradient-to-br from-blue-50 to-indigo-50">
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -156,9 +156,9 @@ function App() {
                     <p className="text-lg font-semibold break-all">helpline@antiragging.net</p>
                   </div>
                 </div>
-                <button className="w-full mt-6 bg-white text-blue-700 font-bold py-4 rounded-xl hover:shadow-xl transition transform hover:scale-105">
+                <Link to="/form" className="block text-center w-full mt-6 bg-white text-blue-700 font-bold py-4 rounded-xl hover:shadow-xl transition transform hover:scale-105">
                   Report Now →
-                </button>
+                </Link>
               </div>
             </div>
           </div>
