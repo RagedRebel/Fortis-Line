@@ -1,31 +1,61 @@
 import { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 function FormPage() {
-  const [formData, setFormData] = useState({
-    category: '',
-    location: '',
-    date: '',
-    description: '',
-    attachment: null,
-  });
+  const [type,setType]=useState()
+  const [location,setLocation]=useState()
+  const [date,setDate]=useState()
+  const [desc,setDesc]=useState()
+  const [id,setId]=useState()
+  const navigate=useNavigate();
+  
+
+  
+  
+  // function formatDate(d){
+  //   if(!d) return null;
+  //   const year=d.getFullYear();
+  //   const month=String(d.getMonth()+1).padStart(2,'0');
+  //   const dte=String(d.getDate()).padStart(2,'0');
+  //   return `${year}-${month}-${dte}`;
+  // }
+  
+  // function handleDateInput(dateString){
+  //   const selectedDate=new Date(dateString);
+ 
+  //   const formattedDate = formatDate(selectedDate);
+  //   setDate(formattedDate);
+  //   console.log(formattedDate); // Outputs: "2025-11-07" (example)
+  // }
+  // const [formData, setFormData] = useState({
+  //   category: '',
+  //   location: '',
+  //   date: '',
+  //   description: '',
+  //   // attachment: null,
+  // });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: files ? files[0] : value,
-    }));
-  };
+  // const handleChange = (e) => {
+  //   const { name, value, files } = e.target;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: files ? files[0] : value,
+  //   }));
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log('Report submitted:', formData);
-    setSubmitted(true);
-    setFormData({ category: '', location: '', date: '', description: '', attachment: null });
+    axios.post("http://localhost:3000/form",{type,location,date,desc})
+    .then(result=>{
+      console.log(result)
+      navigate('/')
+    })
+    .catch(err=>console.log(err))
+   
   };
 
   return (
@@ -74,8 +104,8 @@ function FormPage() {
                   <select
                     id="category"
                     name="category"
-                    value={formData.category}
-                    onChange={handleChange}
+                    // value={formData.category}
+                    onChange={(e)=>setType(e.target.value)}
                     required
                     className="mt-2 w-full rounded-xl border-gray-300 focus:border-blue-600 focus:ring-blue-600 shadow-sm px-4 py-2.5"
                   >
@@ -96,8 +126,8 @@ function FormPage() {
                     id="location"
                     type="text"
                     name="location"
-                    value={formData.location}
-                    onChange={handleChange}
+                    // value={formData.location}
+                    onChange={(e)=>setLocation(e.target.value)}
                     placeholder="e.g., Hostel Block A, Classroom 203"
                     required
                     className="mt-2 w-full rounded-xl border-gray-300 focus:border-blue-600 focus:ring-blue-600 shadow-sm px-4 py-2.5"
@@ -112,8 +142,8 @@ function FormPage() {
                     id="date"
                     type="date"
                     name="date"
-                    value={formData.date}
-                    onChange={handleChange}
+    
+                    onChange={(e)=>{setDate(e.target.value)}}
                     required
                     className="mt-2 w-full rounded-xl border-gray-300 focus:border-blue-600 focus:ring-blue-600 shadow-sm px-4 py-2.5"
                   />
@@ -126,8 +156,8 @@ function FormPage() {
                   <textarea
                     id="description"
                     name="description"
-                    value={formData.description}
-                    onChange={handleChange}
+                    // value={formData.description}
+                    onChange={(e)=>setDesc(e.target.value)}
                     rows={5}
                     placeholder="Describe what happened..."
                     required
@@ -135,7 +165,7 @@ function FormPage() {
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <label htmlFor="attachment" className="block text-sm font-semibold text-gray-700">
                     Upload Attachment
                   </label>
@@ -146,7 +176,7 @@ function FormPage() {
                     onChange={handleChange}
                     className="mt-2 w-full rounded-xl border-gray-300 focus:border-blue-600 focus:ring-blue-600 shadow-sm file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
-                </div>
+                </div> */}
 
                 <button
                   type="submit"
