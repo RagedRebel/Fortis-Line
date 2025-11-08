@@ -24,6 +24,17 @@ app.get("/complaints", async (req,res)=>{
   }
 })
 
+app.get("/getComplaint/:id", async(req,res)=>{
+  try{
+ 
+    const complaints=await ComplaintModel.findById(req.params.id);
+    res.json(complaints)
+  }catch(err){
+    console.error(err);
+    res.status(500).json({error:err.message})
+  }
+
+})
 app.listen(3000,()=>{
     console.log("Server is running")
 })

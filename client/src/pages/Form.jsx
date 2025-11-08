@@ -9,7 +9,6 @@ function FormPage() {
   const [location,setLocation]=useState()
   const [date,setDate]=useState()
   const [desc,setDesc]=useState()
-  const [id,setId]=useState()
   const navigate=useNavigate();
   
 
