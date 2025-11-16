@@ -1,20 +1,26 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 
 function Complaints() {
   const [complaints,setComplaints]=useState([])
+  const navigate = useNavigate()
 
 
 useEffect(()=>{
-
-  axios.get("http://localhost:3000/complaints")
-  .then(result => setComplaints(result.data))
-  .catch(err =>console.log(err))
-
-},[])
+  axios.get("http://localhost:3000/admin/me", { withCredentials: true })
+    .then(() => {
+      return axios.get("http://localhost:3000/admin/complaints", { withCredentials: true })
+    })
+    .then(result => setComplaints(result.data))
+    .catch(err => {
+      if (err?.response?.status === 401) {
+        navigate('/admin')
+      }
+    })
+},[navigate])
 
  function displayDate(dte) {
   const date=new Date(dte);

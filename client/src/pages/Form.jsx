@@ -11,6 +11,7 @@ function FormPage() {
   const [desc,setDesc]=useState()
   const [file,setFile]=useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [createdId, setCreatedId] = useState('');
   const navigate=useNavigate();
   
 
@@ -64,9 +65,10 @@ function FormPage() {
         }
 
       });
-      console.log(result)
+      const id = result?.data?._id || ''
+      setCreatedId(id)
+      console.log('Created complaint id:', id)
       setSubmitted(true);
-      setTimeout(()=>navigate('/'),3000);
     }catch(err){
       console.log(err);
       alert("Error submitting form!!");
@@ -96,6 +98,35 @@ function FormPage() {
               <div className="bg-green-50 border border-green-200 text-green-800 p-6 rounded-xl text-center">
                 <div className="text-2xl mb-2">✅</div>
                 <p className="font-semibold">Report submitted successfully! Thank you for taking a stand.</p>
+                {createdId && (
+                  <div className="mt-3 text-gray-700">
+                    <div className="font-semibold">Your Complaint ID:</div>
+                    <div className="mt-1 font-mono text-sm bg-white inline-block px-3 py-1 rounded border border-green-200">{createdId}</div>
+                    <div className="mt-3">
+                      <button
+                        type="button"
+                        onClick={() => navigator.clipboard?.writeText(createdId)}
+                        className="px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700"
+                      >
+                        Copy ID
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => navigate('/track')}
+                        className="ml-2 px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
+                      >
+                        Track Complaint
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => navigate('/')}
+                        className="ml-2 px-3 py-1 rounded bg-gray-600 text-white hover:bg-gray-700"
+                      >
+                        Go Home
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <>

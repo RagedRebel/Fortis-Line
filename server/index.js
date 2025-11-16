@@ -1,20 +1,37 @@
 const express=require("express")
 const mongoose=require("mongoose")
 const cors=require("cors")
+const session=require("express-session")
 const path=require("path")
 const fs=require("fs")
 const ComplaintModel=require('./models/Complaints')
+const adminRoutes=require('./routes/admin.routes')
 const { upload }=require("./middlewares/multer.middleware")
 require('dotenv').config()
 
 
 
 const app=express()
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-mongoose.connect("mongodb://localhost:27017/FortisLine")
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'fortisline-dev-secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+    maxAge: 1000 * 60 * 60 * 8
+  }
+}))
+
+mongoose.connect(process.env.MONGO_URL || "mongodb://localhost:27017/FortisLine")
 
 app.post("/form",upload.single("attachment"),async (req,res)=>{
   try{
@@ -82,6 +99,9 @@ app.get("/getComplaint/:id", async(req,res)=>{
   }
 
 })
+
+// Admin routes (session-based auth)
+app.use('/admin', adminRoutes)
 app.listen(3000,()=>{
     console.log("Server is running")
 })

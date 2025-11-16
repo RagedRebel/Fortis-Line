@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 function AdminLogin() {
   const [formData, setFormData] = useState({
@@ -7,6 +8,8 @@ function AdminLogin() {
     password: ''
   })
   const [showPassword, setShowPassword] = useState(false)
+  const navigate = useNavigate()
+  const [error, setError] = useState('')
 
   const handleChange = (e) => {
     setFormData({
@@ -15,10 +18,15 @@ function AdminLogin() {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Backend logic will be added later
-    console.log('Login attempt:', formData)
+    setError('')
+    try {
+      await axios.post('http://localhost:3000/admin/login', formData, { withCredentials: true })
+      navigate('/complaints')
+    } catch (err) {
+      setError(err?.response?.data?.message || 'Login failed')
+    }
   }
 
   return (
@@ -56,6 +64,11 @@ function AdminLogin() {
 
           {/* Login form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
+                {error}
+              </div>
+            )}
             {/* Email field */}
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">

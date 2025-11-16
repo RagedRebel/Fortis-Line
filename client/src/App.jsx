@@ -4,9 +4,10 @@ import Landing from './pages/LandingPage.jsx'
 import FormPage from './pages/Form.jsx'
 import Complaints from './pages/Complaints.jsx'
 import TrackComplaint from './pages/TrackComplaint.jsx'
-import ComplaintDetail from './pages/ComplaintDetail.jsx'
+import ComplaintDetail from './pages/AdminComplaintDetail.jsx'
 import UserComplaintDetail from './pages/UserComplaintDetail.jsx'
 import AdminLogin from './pages/AdminLogin.jsx'
+import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 function App() {
   return (
@@ -15,10 +16,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/form" element={<FormPage />} />
-        <Route path="/complaints" element={<Complaints />} />
         <Route path="/track" element={<TrackComplaint />} />
-        <Route path="/complaints/:id" element={<ComplaintDetail />} />
         <Route path="/complaint/:id" element={<UserComplaintDetail />} />
+
+        <Route element={<ProtectedRoute />}> 
+          <Route path="/complaints" element={<Complaints />} />
+          <Route path="/complaints/:id" element={<ComplaintDetail />} />
+        </Route>
+
         <Route path="/admin" element={<AdminLogin/>}/>
       </Routes>
     </BrowserRouter>

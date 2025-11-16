@@ -36,17 +36,19 @@ function ComplaintDetail() {
 }
 
   useEffect(()=>{
+  axios.get("http://localhost:3000/admin/me", { withCredentials: true })
+    .then(() => axios.get("http://localhost:3000/admin/complaints/"+id, { withCredentials: true }))
+    .then(result => {
+      setComplaint(result.data);
+    })
+    .catch(err =>{
+      setError(true)
+      if (err?.response?.status === 401) {
+        navigate('/admin')
+      }
+    })
 
-  axios.get("http://localhost:3000/getComplaint/"+id)
-  .then(result => {
-    
-    setComplaint(result.data);
-    console.log(result)})
-  .catch(err =>{
-    setError(true)
-    console.log(err)})
-
-},[id])
+},[id, navigate])
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50 text-gray-800">
@@ -106,8 +108,8 @@ function ComplaintDetail() {
               
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link to="/complaints" className="px-5 py-3 rounded-xl bg-gray-200 text-gray-800 hover:bg-gray-300 transition">Back to Dashboard</Link>
-                <Link to="/track" className="px-5 py-3 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition">Track Another</Link>
+                <Link to="/complaints" className="px-5 py-3 rounded-xl bg-gray-200 text-gray-800 hover:bg-gray-300 transition">Back to Home</Link>
+               
               </div>
             </div>
           )}
