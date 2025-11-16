@@ -9,6 +9,8 @@ function FormPage() {
   const [location,setLocation]=useState()
   const [date,setDate]=useState()
   const [desc,setDesc]=useState()
+  const [file,setFile]=useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const navigate=useNavigate();
   
 
@@ -36,7 +38,6 @@ function FormPage() {
   //   description: '',
   //   // attachment: null,
   // });
-  const [submitted, setSubmitted] = useState(false);
 
   // const handleChange = (e) => {
   //   const { name, value, files } = e.target;
@@ -46,16 +47,38 @@ function FormPage() {
   //   }));
   // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3000/form",{type,location,date,desc})
-    .then(result=>{
+    const formData=new FormData();
+    formData.append('type',type);
+    formData.append('location',location);
+    formData.append('date',date);
+    formData.append('desc',desc);
+    if(file){
+      formData.append('attachment',file);
+    }
+    try{
+      const result=await axios.post("http://localhost:3000/form",formData,{
+        headers:{
+          'Content-Type':'multipart/form-data'
+        }
+
+      });
       console.log(result)
-      navigate('/')
-    })
-    .catch(err=>console.log(err))
-   
+      setSubmitted(true);
+      setTimeout(()=>navigate('/'),3000);
+    }catch(err){
+      console.log(err);
+      alert("Error submitting form!!");
+    }
+       
   };
+
+
+  const handleFileChange=(e)=>{
+    const selectedFile=e.target.files[0];
+    setFile(selectedFile);
+    }
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50 text-gray-800">
@@ -95,7 +118,7 @@ function FormPage() {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5" encType='multipart/form-data'>
                 <div>
                   <label htmlFor="category" className="block text-sm font-semibold text-gray-700">
                     Type of Incident
@@ -164,7 +187,7 @@ function FormPage() {
                   />
                 </div>
 
-                {/* <div>
+                <div>
                   <label htmlFor="attachment" className="block text-sm font-semibold text-gray-700">
                     Upload Attachment
                   </label>
@@ -172,10 +195,10 @@ function FormPage() {
                     id="attachment"
                     type="file"
                     name="attachment"
-                    onChange={handleChange}
+                    onChange={handleFileChange}
                     className="mt-2 w-full rounded-xl border-gray-300 focus:border-blue-600 focus:ring-blue-600 shadow-sm file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
-                </div> */}
+                </div>
 
                 <button
                   type="submit"

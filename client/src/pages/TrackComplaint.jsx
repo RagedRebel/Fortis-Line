@@ -17,7 +17,7 @@ function TrackComplaint() {
     }
 
     const normalized = trimmed.replace(/^#/, '');
-    navigate(`/complaints/${normalized}`);
+    navigate(`/complaint/${normalized}`);
   };
 
   const isInvalid = touched && !complaintId.trim();
