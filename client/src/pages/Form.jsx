@@ -83,44 +83,44 @@ function FormPage() {
     }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50 text-gray-800">
+    <div className="min-h-screen flex flex-col bg-[#E5E9C5] text-gray-800">
       <Header />
 
       <main className="flex-1 px-4 sm:px-6 lg:px-8 py-10">
         <div className="max-w-2xl mx-auto">
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8">
             <div className="text-center mb-8">
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">Anonymous Ragging Report</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold text-[#016B61]">Anonymous Ragging Report</h1>
               
             </div>
 
             {submitted ? (
-              <div className="bg-green-50 border border-green-200 text-green-800 p-6 rounded-xl text-center">
+              <div className="bg-[#9ECFD4] border border-[#70B2B2] text-[#016B61] p-6 rounded-xl text-center">
                 <div className="text-2xl mb-2">✅</div>
                 <p className="font-semibold">Report submitted successfully! Thank you for taking a stand.</p>
                 {createdId && (
                   <div className="mt-3 text-gray-700">
                     <div className="font-semibold">Your Complaint ID:</div>
-                    <div className="mt-1 font-mono text-sm bg-white inline-block px-3 py-1 rounded border border-green-200">{createdId}</div>
+                    <div className="mt-1 font-mono text-sm bg-white inline-block px-3 py-1 rounded border border-[#70B2B2]">{createdId}</div>
                     <div className="mt-3">
                       <button
                         type="button"
                         onClick={() => navigator.clipboard?.writeText(createdId)}
-                        className="px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700"
+                        className="cursor-pointer px-3 py-1 rounded bg-[#016B61] text-white hover:bg-[#70B2B2] transition duration-300"
                       >
                         Copy ID
                       </button>
                       <button
                         type="button"
                         onClick={() => navigate('/track')}
-                        className="ml-2 px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
+                        className="cursor-pointer ml-2 px-3 py-1 rounded bg-[#70B2B2] text-white hover:bg-[#9ECFD4] hover:text-[#016B61] transition duration-300"
                       >
                         Track Complaint
                       </button>
                       <button
                         type="button"
                         onClick={() => navigate('/')}
-                        className="ml-2 px-3 py-1 rounded bg-gray-600 text-white hover:bg-gray-700"
+                        className="cursor-pointer ml-2 px-3 py-1 rounded bg-gray-600 text-white hover:bg-gray-700 transition duration-300"
                       >
                         Go Home
                       </button>
@@ -132,8 +132,8 @@ function FormPage() {
               <>
         
                 <div className="mb-6">
-                  <div className="flex items-start gap-3 bg-blue-50 border border-blue-200 text-blue-900 p-4 rounded-xl">
-                    <div className="text-blue-700 text-xl">ℹ️</div>
+                  <div className="flex items-start gap-3 bg-[#9ECFD4] border border-[#70B2B2] text-[#016B61] p-4 rounded-xl">
+                    <div className="text-[#016B61] text-xl">ℹ️</div>
                     <div>
                       <h2 className="font-semibold mb-2">Guidelines to fill the form</h2>
                       <ul className="list-disc pl-5 space-y-2 text-sm sm:text-base">
@@ -160,14 +160,14 @@ function FormPage() {
                     // value={formData.category}
                     onChange={(e)=>setType(e.target.value)}
                     required
-                    className="mt-2 w-full rounded-xl border-gray-300 focus:border-blue-600 focus:ring-blue-600 shadow-sm px-4 py-2.5"
+                    className="cursor-pointer mt-2 w-full rounded-xl border-gray-300 focus:border-[#016B61] focus:ring-[#016B61] shadow-sm px-4 py-2.5"
                   >
                     <option value="">Select Type</option>
-                    <option value="verbal">Verbal Abuse</option>
-                    <option value="physical">Physical Abuse</option>
-                    <option value="cyber">Cyber Bullying</option>
-                    <option value="sexual">Sexual Harassment</option>
-                    <option value="other">Other</option>
+                    <option value="Verbal">Verbal Abuse</option>
+                    <option value="Physical">Physical Abuse</option>
+                    <option value="Cyber">Cyber Bullying</option>
+                    <option value="Sexual">Sexual Harassment</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
 
@@ -183,7 +183,7 @@ function FormPage() {
                     onChange={(e)=>setLocation(e.target.value)}
                     placeholder="e.g., Hostel Block A, Classroom 203"
                     required
-                    className="mt-2 w-full rounded-xl border-gray-300 focus:border-blue-600 focus:ring-blue-600 shadow-sm px-4 py-2.5"
+                    className="mt-2 w-full rounded-xl border-gray-300 focus:border-[#016B61] focus:ring-[#016B61] shadow-sm px-4 py-2.5"
                   />
                 </div>
 
@@ -198,7 +198,7 @@ function FormPage() {
     
                     onChange={(e)=>{setDate(e.target.value)}}
                     required
-                    className="mt-2 w-full rounded-xl border-gray-300 focus:border-blue-600 focus:ring-blue-600 shadow-sm px-4 py-2.5"
+                    className="cursor-pointer mt-2 w-full rounded-xl border-gray-300 focus:border-[#016B61] focus:ring-[#016B61] shadow-sm px-4 py-2.5"
                   />
                 </div>
 
@@ -214,7 +214,7 @@ function FormPage() {
                     rows={5}
                     placeholder="Describe what happened..."
                     required
-                    className="mt-2 w-full rounded-xl border-gray-300 focus:border-blue-600 focus:ring-blue-600 shadow-sm px-4 py-2.5"
+                    className="mt-2 w-full rounded-xl border-gray-300 focus:border-[#016B61] focus:ring-[#016B61] shadow-sm px-4 py-2.5"
                   />
                 </div>
 
@@ -227,13 +227,13 @@ function FormPage() {
                     type="file"
                     name="attachment"
                     onChange={handleFileChange}
-                    className="mt-2 w-full rounded-xl border-gray-300 focus:border-blue-600 focus:ring-blue-600 shadow-sm file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                    className="cursor-pointer mt-2 w-full rounded-xl border-gray-300 focus:border-[#016B61] focus:ring-[#016B61] shadow-sm file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#9ECFD4] file:text-[#016B61] hover:file:bg-[#70B2B2] file:cursor-pointer"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-700 to-indigo-700 text-white font-semibold py-3.5 rounded-xl shadow-md hover:shadow-lg transform hover:scale-[1.01] transition"
+                  className="cursor-pointer w-full bg-[#016B61] text-white font-semibold py-3.5 rounded-xl shadow-md hover:shadow-lg hover:bg-[#70B2B2] transition duration-300"
                 >
                   Submit Report
                 </button>

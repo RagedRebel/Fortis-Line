@@ -18,6 +18,11 @@ const ComplaintSchema=new mongoose.Schema({
     type: String,
     required: true
   },
+  status:{
+    type: String,
+    enum: ['New', 'In Review', 'Resolved','Rejected'],
+    default: 'New'
+  },
   attachment: {
     type: String,
     default: null

@@ -5,8 +5,8 @@ require('dotenv').config()
 async function main() {
   const url = process.env.MONGO_URL || 'mongodb://localhost:27017/FortisLine'
   await mongoose.connect(url)
-  const email = process.env.SEED_ADMIN_EMAIL || 'admin@fortisline.com'
-  const password = process.env.SEED_ADMIN_PASSWORD || 'admin123'
+  const email ='admin@fortisline.com'
+  const password =  'admin123'
   const exists = await Admin.findOne({ email })
   if (exists) {
     console.log('Admin already exists:', email)

@@ -27,6 +27,8 @@ function ComplaintDetail() {
   const [complaint,setComplaint]=useState();
   const [error,setError]=useState(false);
   const navigate=useNavigate();
+  const [newStatus, setNewStatus] = useState('In Review');
+  const [updating, setUpdating] = useState(false);
   
   function displayDate(dte) {
   const date=new Date(dte);
@@ -40,6 +42,7 @@ function ComplaintDetail() {
     .then(() => axios.get("http://localhost:3000/admin/complaints/"+id, { withCredentials: true }))
     .then(result => {
       setComplaint(result.data);
+      setNewStatus(result.data?.status || 'In Review')
     })
     .catch(err =>{
       setError(true)
@@ -50,25 +53,64 @@ function ComplaintDetail() {
 
 },[id, navigate])
 
+  const statusOptions = ['New', 'In Review', 'Resolved', 'Rejected']
+
+  const updateStatus = async () => {
+    try {
+      setUpdating(true)
+      const res = await axios.patch(
+        `http://localhost:3000/admin/complaints/${id}/status`,
+        { status: newStatus },
+        { withCredentials: true }
+      )
+      setComplaint(res.data)
+    } catch (e) {
+      alert(e?.response?.data?.message || 'Failed to update status')
+    } finally {
+      setUpdating(false)
+    }
+  }
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50 text-gray-800">
+    <div className="min-h-screen flex flex-col bg-[#E5E9C5] text-gray-800">
       <Header />
 
       <main className="flex-1 px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-3xl mx-auto">
           {!complaint ||  error ? (
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 p-8 text-center">
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 text-center">
               <h1 className="text-2xl font-bold mb-2">Complaint Not Found</h1>
               <p className="text-gray-600 mb-6">We couldn't find a complaint with the given ID.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link to="/track" className="px-5 py-3 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition">Try Another ID</Link>
-                <Link to="/complaints" className="px-5 py-3 rounded-xl bg-gray-200 text-gray-800 hover:bg-gray-300 transition">Go to Dashboard</Link>
+                <Link to="/track" className="cursor-pointer px-5 py-3 rounded-xl bg-[#016B61] text-white hover:bg-[#70B2B2] transition duration-300">Try Another ID</Link>
+                <Link to="/complaints" className="cursor-pointer px-5 py-3 rounded-xl bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-300">Go to Dashboard</Link>
               </div>
             </div>
           ) : (
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 p-8">
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
               <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
-                <h1 className="text-3xl font-bold">Complaint</h1>
+                <h1 className="text-3xl font-bold text-[#016B61]">Complaint</h1>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm text-gray-600">Status:</label>
+                    <select
+                      value={newStatus}
+                      onChange={(e)=>setNewStatus(e.target.value)}
+                      className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    >
+                      {statusOptions.map(s => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={updateStatus}
+                      disabled={updating}
+                      className={`cursor-pointer px-3 py-2 rounded-lg text-sm text-white ${updating? 'bg-gray-400' : 'bg-[#016B61] hover:bg-[#70B2B2]'} transition-colors`}
+                    >
+                      {updating ? 'Saving…' : 'Save'}
+                    </button>
+                  </div>
+                </div>
                 {/* <Badge>{data.status}</Badge> */}
               </div>
 
@@ -95,7 +137,7 @@ function ComplaintDetail() {
                     href={`http://localhost:3000/${complaint.attachment}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition"
+                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-[#9ECFD4] text-[#016B61] rounded-lg hover:bg-[#70B2B2] transition duration-300"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
@@ -108,7 +150,7 @@ function ComplaintDetail() {
               
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link to="/complaints" className="px-5 py-3 rounded-xl bg-gray-200 text-gray-800 hover:bg-gray-300 transition">Back to Home</Link>
+                <Link to="/complaints" className="cursor-pointer px-5 py-3 rounded-xl bg-[#016B61] text-white hover:bg-[#70B2B2] transition duration-300">Back to Home</Link>
                
               </div>
             </div>
