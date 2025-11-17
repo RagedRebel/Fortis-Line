@@ -1,2 +1,16 @@
 @import "tailwindcss";
 
+@theme {
+	--color-primary: #1B3C53;
+	--color-secondary: #456882;
+	--color-accent: #D2C1B6;
+	--color-surface: #F9F3EF;
+}
+
+/* Base app background/text */
+html, body, #root {
+	background-color: var(--color-surface);
+	color: rgb(31 41 55); /* Tailwind gray-800 */
+	min-height: 100%;
+}
+

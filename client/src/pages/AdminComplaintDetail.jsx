@@ -72,7 +72,7 @@ function ComplaintDetail() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#E5E9C5] text-gray-800">
+    <div className="min-h-screen flex flex-col bg-surface text-gray-800">
       <Header />
 
       <main className="flex-1 px-4 sm:px-6 lg:px-8 py-12">
@@ -82,14 +82,14 @@ function ComplaintDetail() {
               <h1 className="text-2xl font-bold mb-2">Complaint Not Found</h1>
               <p className="text-gray-600 mb-6">We couldn't find a complaint with the given ID.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link to="/track" className="cursor-pointer px-5 py-3 rounded-xl bg-[#016B61] text-white hover:bg-[#70B2B2] transition duration-300">Try Another ID</Link>
+                <Link to="/track" className="cursor-pointer px-5 py-3 rounded-xl bg-primary text-white hover:bg-secondary transition duration-300">Try Another ID</Link>
                 <Link to="/complaints" className="cursor-pointer px-5 py-3 rounded-xl bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-300">Go to Dashboard</Link>
               </div>
             </div>
           ) : (
             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
               <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
-                <h1 className="text-3xl font-bold text-[#016B61]">Complaint</h1>
+                <h1 className="text-3xl font-bold text-primary">Complaint</h1>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
                     <label className="text-sm text-gray-600">Status:</label>
@@ -105,7 +105,7 @@ function ComplaintDetail() {
                     <button
                       onClick={updateStatus}
                       disabled={updating}
-                      className={`cursor-pointer px-3 py-2 rounded-lg text-sm text-white ${updating? 'bg-gray-400' : 'bg-[#016B61] hover:bg-[#70B2B2]'} transition-colors`}
+                      className={`cursor-pointer px-3 py-2 rounded-lg text-sm text-white ${updating? 'bg-gray-400' : 'bg-primary hover:bg-secondary'} transition-colors`}
                     >
                       {updating ? 'Saving…' : 'Save'}
                     </button>
@@ -137,7 +137,7 @@ function ComplaintDetail() {
                     href={`http://localhost:3000/${complaint.attachment}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-[#9ECFD4] text-[#016B61] rounded-lg hover:bg-[#70B2B2] transition duration-300"
+                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-surface text-primary rounded-lg hover:bg-accent transition duration-300"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
@@ -150,7 +150,7 @@ function ComplaintDetail() {
               
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link to="/complaints" className="cursor-pointer px-5 py-3 rounded-xl bg-[#016B61] text-white hover:bg-[#70B2B2] transition duration-300">Back to Home</Link>
+                <Link to="/complaints" className="cursor-pointer px-5 py-3 rounded-xl bg-primary text-white hover:bg-secondary transition duration-300">Back to Home</Link>
                
               </div>
             </div>

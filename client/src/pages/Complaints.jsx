@@ -51,14 +51,14 @@ useEffect(()=>{
   
 }
   return (
-    <div className="min-h-screen flex flex-col text-gray-800 bg-[#E5E9C5]">
+    <div className="min-h-screen flex flex-col text-gray-800 bg-surface">
 
       <Header />
 
       <main className="flex-1 px-4 sm:px-6 lg:px-8 py-10 flex flex-col items-center">
         <div className="w-full max-w-5xl flex flex-col gap-6">
           <div className="flex items-center justify-between gap-4">
-            <h1 className="text-3xl sm:text-4xl font-bold text-[#016B61]">
+            <h1 className="text-3xl sm:text-4xl font-bold text-primary">
               Admin Complaints Dashboard
             </h1>
             <button
@@ -75,7 +75,7 @@ useEffect(()=>{
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-5">
               <p className="text-sm text-gray-500">Total Complaints</p>
-              <p className="text-3xl font-bold text-[#016B61]">{stats.total}</p>
+              <p className="text-3xl font-bold text-primary">{stats.total}</p>
             </div>
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-5">
               <p className="text-sm text-gray-500">In Review</p>
@@ -91,7 +91,7 @@ useEffect(()=>{
         <div className="mt-6 overflow-x-auto bg-white text-gray-800 shadow-2xl rounded-2xl p-6 w-full max-w-5xl">
           <table className="min-w-full border text-left rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-[#016B61] text-white">
+              <tr className="bg-primary text-white">
                 <th className="py-3 px-4">No.</th>
                 <th className="py-3 px-4">Type</th>
                 <th className="py-3 px-4">Date</th>
@@ -110,7 +110,7 @@ useEffect(()=>{
                   : statusLower.includes('review') || statusLower === 'new'
                   ? 'bg-yellow-100 text-yellow-700'
                   : 'bg-gray-100 text-gray-700'
-                return <tr key={complaint._id} className="border-b hover:bg-[#E5E9C5] transition duration-300">
+                return <tr key={complaint._id} className="border-b hover:bg-surface transition duration-300">
                 <td className="py-3 px-4 font-medium">{index+1}</td>
                 <td className="py-3 px-4">{complaint.type}</td>
                 <td className="py-3 px-4">{displayDate(complaint.date)}</td>
@@ -118,7 +118,7 @@ useEffect(()=>{
                   <span className={`${badgeClass} text-sm px-3 py-1 rounded-full`}>{status}</span>
                 </td>
                 <td className="py-3 px-4">
-                  <Link to={`/complaints/${complaint._id}`} className="cursor-pointer bg-[#016B61] text-white px-3 py-1 rounded hover:bg-[#70B2B2] transition duration-300">View</Link>
+                  <Link to={`/complaints/${complaint._id}`} className="cursor-pointer bg-primary text-white px-3 py-1 rounded hover:bg-secondary transition duration-300">View</Link>
                 </td>
               </tr>
               })}

@@ -30,12 +30,12 @@ function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#E5E9C5] px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-surface px-4 py-12">
       <div className="relative w-full max-w-md">
         {/* Back to home button */}
         <Link 
           to="/" 
-          className="cursor-pointer inline-flex items-center text-[#016B61] hover:text-[#70B2B2] font-medium mb-6 transition-colors duration-300"
+          className="cursor-pointer inline-flex items-center text-primary hover:text-secondary font-medium mb-6 transition-colors duration-300"
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -47,12 +47,12 @@ function AdminLogin() {
         <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10 border border-gray-100">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#016B61] rounded-2xl mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-4">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-[#016B61] mb-2">Admin Login</h1>
+            <h1 className="text-3xl font-bold text-primary mb-2">Admin Login</h1>
             <p className="text-gray-600">Access the administrative dashboard</p>
           </div>
 
@@ -81,7 +81,7 @@ function AdminLogin() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#016B61] focus:border-transparent transition-all outline-none"
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
                   placeholder="admin@fortisline.com"
                 />
               </div>
@@ -105,13 +105,13 @@ function AdminLogin() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#016B61] focus:border-transparent transition-all outline-none"
+                  className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="cursor-pointer absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-[#016B61] transition-colors duration-300"
+                  className="cursor-pointer absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-primary transition-colors duration-300"
                 >
                   {showPassword ? (
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,13 +132,13 @@ function AdminLogin() {
               <label className="cursor-pointer flex items-center">
                 <input
                   type="checkbox"
-                  className="cursor-pointer w-4 h-4 text-[#016B61] border-gray-300 rounded focus:ring-[#016B61] focus:ring-2"
+                  className="cursor-pointer w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary focus:ring-2"
                 />
                 <span className="ml-2 text-sm text-gray-600">Remember me</span>
               </label>
               <button
                 type="button"
-                className="cursor-pointer text-sm text-[#016B61] hover:text-[#70B2B2] font-medium transition-colors duration-300"
+                className="cursor-pointer text-sm text-primary hover:text-secondary font-medium transition-colors duration-300"
               >
                 Forgot password?
               </button>
@@ -147,7 +147,7 @@ function AdminLogin() {
             {/* Submit button */}
             <button
               type="submit"
-              className="cursor-pointer w-full bg-[#016B61] text-white font-bold py-3.5 rounded-xl shadow-lg hover:shadow-xl hover:bg-[#70B2B2] transition-all duration-300"
+              className="cursor-pointer w-full bg-primary text-white font-bold py-3.5 rounded-xl shadow-lg hover:shadow-xl hover:bg-secondary transition-all duration-300"
             >
               Sign In
             </button>
@@ -170,7 +170,7 @@ function AdminLogin() {
             </p>
             <a 
               href="mailto:admin@fortisline.com" 
-              className="cursor-pointer inline-flex items-center text-[#016B61] hover:text-[#70B2B2] font-medium text-sm transition-colors duration-300"
+              className="cursor-pointer inline-flex items-center text-primary hover:text-secondary font-medium text-sm transition-colors duration-300"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -183,7 +183,7 @@ function AdminLogin() {
         {/* Security badge */}
         <div className="mt-6 text-center">
           <div className="inline-flex items-center text-sm text-gray-600">
-            <svg className="w-4 h-4 mr-2 text-[#016B61]" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-4 h-4 mr-2 text-primary" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
             Secure connection established

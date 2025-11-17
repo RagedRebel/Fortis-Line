@@ -5,27 +5,27 @@ import { Link } from 'react-router-dom'
 function LandingPage() {
   return (
     <>
-      <div className="min-h-screen flex flex-col bg-[#E5E9C5] text-gray-800">
+      <div className="min-h-screen flex flex-col bg-surface text-gray-800">
         <Header />
 
    
-        <section className="relative flex flex-col items-center justify-center text-center py-24 px-6 bg-[#016B61] text-white overflow-hidden">
+        <section className="relative flex flex-col items-center justify-center text-center py-24 px-6 bg-primary text-white overflow-hidden">
           
           <div className="relative z-10 max-w-4xl">
-            <div className="inline-block mb-4 px-4 py-2 bg-[#70B2B2] rounded-full text-sm font-semibold">
+            <div className="inline-block mb-4 px-4 py-2 bg-secondary rounded-full text-sm font-semibold">
               🛡️ Safe Campus Initiative
             </div>
             <h2 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
               Stand Against Ragging
             </h2>
-            <p className="max-w-2xl mx-auto text-xl mb-8 text-[#E5E9C5] leading-relaxed">
+            <p className="max-w-2xl mx-auto text-xl mb-8 text-surface leading-relaxed">
               Creating a safe and inclusive campus for every student. Report ragging anonymously and access instant help from our anti-ragging committee.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/form" className="cursor-pointer bg-[#9ECFD4] text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl hover:bg-[#70B2B2] transition duration-300">
+              <Link to="/form" className="cursor-pointer bg-accent text-primary font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl hover:bg-secondary hover:text-white transition duration-300">
                 📚 Know Your Rights
               </Link>
-              <Link to="/form" className="cursor-pointer bg-[#70B2B2] text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl hover:bg-[#9ECFD4] hover:text-[#016B61] transition duration-300">
+              <Link to="/form" className="cursor-pointer bg-accent text-primary font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl hover:bg-secondary hover:text-white transition duration-300">
                 🚨 Emergency Help
               </Link>
             </div>
@@ -36,29 +36,29 @@ function LandingPage() {
         <section className="py-12 px-6 bg-white shadow-md">
           <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#016B61] mb-2">24/7</div>
+              <div className="text-4xl font-bold text-primary mb-2">24/7</div>
               <p className="text-gray-600 font-medium">Support Available</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#016B61] mb-2">100%</div>
+              <div className="text-4xl font-bold text-primary mb-2">100%</div>
               <p className="text-gray-600 font-medium">Confidential</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#016B61] mb-2">500+</div>
+              <div className="text-4xl font-bold text-primary mb-2">500+</div>
               <p className="text-gray-600 font-medium">Students Helped</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#016B61] mb-2">15min</div>
+              <div className="text-4xl font-bold text-primary mb-2">15min</div>
               <p className="text-gray-600 font-medium">Avg Response Time</p>
             </div>
           </div>
         </section>
 
 
-        <section className="py-20 px-6 bg-[#E5E9C5]">
+        <section className="py-20 px-6 bg-surface">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <h3 className="text-4xl md:text-5xl font-bold mb-4 text-[#016B61]">
+              <h3 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
                 Why Choose FortisLine?
               </h3>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -68,7 +68,7 @@ function LandingPage() {
 
             <div className="grid md:grid-cols-3 gap-8">
               <div className="cursor-pointer group bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-                <div className="w-16 h-16 bg-[#016B61] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <span className="text-3xl">📢</span>
                 </div>
                 <h4 className="text-2xl font-bold mb-4 text-gray-800">Anonymous Reporting</h4>
@@ -78,7 +78,7 @@ function LandingPage() {
               </div>
 
               <div className="cursor-pointer group bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-                <div className="w-16 h-16 bg-[#70B2B2] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <span className="text-3xl">⚡</span>
                 </div>
                 <h4 className="text-2xl font-bold mb-4 text-gray-800">Instant Help</h4>
@@ -88,7 +88,7 @@ function LandingPage() {
               </div>
 
               <div className="cursor-pointer group bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-                <div className="w-16 h-16 bg-[#9ECFD4] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <span className="text-3xl">🤝</span>
                 </div>
                 <h4 className="text-2xl font-bold mb-4 text-gray-800">Support & Guidance</h4>
@@ -134,23 +134,23 @@ function LandingPage() {
                   </li>
                 </ul>
               </div>
-              <div className="bg-[#016B61] rounded-3xl p-8 text-white shadow-2xl">
+              <div className="bg-primary rounded-3xl p-8 text-white shadow-2xl">
                 <h4 className="text-2xl font-bold mb-6">Need Immediate Help?</h4>
                 <div className="space-y-4">
-                  <div className="bg-[#70B2B2] rounded-xl p-4">
-                    <p className="text-sm text-[#E5E9C5] mb-1">National Helpline</p>
+                  <div className="bg-secondary rounded-xl p-4">
+                    <p className="text-sm text-surface mb-1">National Helpline</p>
                     <p className="text-2xl font-bold">1800-180-5522</p>
                   </div>
-                  <div className="bg-[#70B2B2] rounded-xl p-4">
-                    <p className="text-sm text-[#E5E9C5] mb-1">UGC Helpline</p>
+                  <div className="bg-secondary rounded-xl p-4">
+                    <p className="text-sm text-surface mb-1">UGC Helpline</p>
                     <p className="text-2xl font-bold">15522</p>
                   </div>
-                  <div className="bg-[#70B2B2] rounded-xl p-4">
-                    <p className="text-sm text-[#E5E9C5] mb-1">Email Support</p>
+                  <div className="bg-secondary rounded-xl p-4">
+                    <p className="text-sm text-surface mb-1">Email Support</p>
                     <p className="text-lg font-semibold break-all">helpline@antiragging.net</p>
                   </div>
                 </div>
-                <Link to="/form" className="cursor-pointer block text-center w-full mt-6 bg-white text-[#016B61] font-bold py-4 rounded-xl hover:bg-[#E5E9C5] hover:shadow-xl transition duration-300">
+                <Link to="/form" className="cursor-pointer block text-center w-full mt-6 bg-white text-primary font-bold py-4 rounded-xl hover:bg-surface hover:shadow-xl transition duration-300">
                   Report Now →
                 </Link>
               </div>

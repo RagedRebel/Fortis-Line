@@ -11,12 +11,12 @@ function Header() {
           {/* Logo and Brand */}
           <div className="flex items-center space-x-3">
             <div className="flex-shrink-0">
-              <div className="w-10 h-10 bg-[#016B61] rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">🛡️</span>
               </div>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-[#016B61]">
+              <h1 className="text-2xl font-bold text-primary">
                 FortisLine
               </h1>
               <p className="text-xs text-gray-500">Anti-Ragging Portal</p>
@@ -25,19 +25,19 @@ function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="cursor-pointer text-gray-700 hover:text-[#016B61] transition-colors duration-300 font-medium">
+            <Link to="/" className="cursor-pointer text-gray-700 hover:text-primary transition-colors duration-300 font-medium">
               Home
             </Link>
-            <a href="#about" className="cursor-pointer text-gray-700 hover:text-[#016B61] transition-colors duration-300 font-medium">
+            <a href="#about" className="cursor-pointer text-gray-700 hover:text-primary transition-colors duration-300 font-medium">
               About
             </a>
-            <a href="#resources" className="cursor-pointer text-gray-700 hover:text-[#016B61] transition-colors duration-300 font-medium">
+            <a href="#resources" className="cursor-pointer text-gray-700 hover:text-primary transition-colors duration-300 font-medium">
               Resources
             </a>
-            <Link to="/track" className="cursor-pointer text-gray-700 hover:text-[#016B61] transition-colors duration-300 font-medium">
+            <Link to="/track" className="cursor-pointer text-gray-700 hover:text-primary transition-colors duration-300 font-medium">
               Track Complaint
             </Link>
-            <Link to="/form" className="cursor-pointer bg-[#016B61] text-white px-6 py-2.5 rounded-lg hover:bg-[#70B2B2] hover:shadow-lg transition-all duration-300 font-semibold">
+            <Link to="/form" className="cursor-pointer bg-primary text-white px-6 py-2.5 rounded-lg hover:bg-secondary hover:shadow-lg transition-all duration-300 font-semibold">
               🚨 Report Incident
             </Link>
           </div>
@@ -46,7 +46,7 @@ function Header() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="cursor-pointer text-gray-700 hover:text-[#016B61] focus:outline-none transition-colors duration-300"
+              className="cursor-pointer text-gray-700 hover:text-primary focus:outline-none transition-colors duration-300"
             >
               <svg
                 className="h-6 w-6"
@@ -74,29 +74,29 @@ function Header() {
           <div className="px-2 pt-2 pb-3 space-y-1">
             <Link
               to="/"
-              className="cursor-pointer block px-3 py-2 rounded-md text-gray-700 hover:bg-[#E5E9C5] hover:text-[#016B61] transition-colors duration-300 font-medium"
+              className="cursor-pointer block px-3 py-2 rounded-md text-gray-700 hover:bg-surface hover:text-primary transition-colors duration-300 font-medium"
             >
               Home
             </Link>
             <a
               href="#about"
-              className="cursor-pointer block px-3 py-2 rounded-md text-gray-700 hover:bg-[#E5E9C5] hover:text-[#016B61] transition-colors duration-300 font-medium"
+              className="cursor-pointer block px-3 py-2 rounded-md text-gray-700 hover:bg-surface hover:text-primary transition-colors duration-300 font-medium"
             >
               About
             </a>
             <a
               href="#resources"
-              className="cursor-pointer block px-3 py-2 rounded-md text-gray-700 hover:bg-[#E5E9C5] hover:text-[#016B61] transition-colors duration-300 font-medium"
+              className="cursor-pointer block px-3 py-2 rounded-md text-gray-700 hover:bg-surface hover:text-primary transition-colors duration-300 font-medium"
             >
               Resources
             </a>
             <Link
               to="/track"
-              className="cursor-pointer block px-3 py-2 rounded-md text-gray-700 hover:bg-[#E5E9C5] hover:text-[#016B61] transition-colors duration-300 font-medium"
+              className="cursor-pointer block px-3 py-2 rounded-md text-gray-700 hover:bg-surface hover:text-primary transition-colors duration-300 font-medium"
             >
               Track Complaint
             </Link>
-            <Link to="/form" className="cursor-pointer block w-full text-left px-3 py-2 rounded-md bg-[#016B61] text-white font-semibold hover:bg-[#70B2B2] hover:shadow-lg transition-all duration-300">
+            <Link to="/form" className="cursor-pointer block w-full text-left px-3 py-2 rounded-md bg-primary text-white font-semibold hover:bg-secondary hover:shadow-lg transition-all duration-300">
               🚨 Report Incident
             </Link>
           </div>
