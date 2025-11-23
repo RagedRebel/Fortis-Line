@@ -130,20 +130,38 @@ function ComplaintDetail() {
                 <p className="text-gray-700 leading-relaxed">{complaint.desc}</p>
               </div>
 
-              {complaint.attachment && (
+              {(complaint.attachments?.length > 0 || complaint.attachment) && (
                 <div className="mb-8">
                   <p className="text-sm text-gray-500 mb-1">Attachments:</p>
-                  <a 
-                    href={`http://localhost:3000/${complaint.attachment}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-surface text-primary rounded-lg hover:bg-accent transition duration-300"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                    </svg>
-                    View Attachment
-                  </a>
+                  <div className="flex flex-col gap-2">
+                    {complaint.attachment && (
+                       <a 
+                        href={`http://localhost:3000/${complaint.attachment}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-surface text-primary rounded-lg hover:bg-accent transition duration-300 w-fit"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                        </svg>
+                        View Attachment (Legacy)
+                      </a>
+                    )}
+                    {complaint.attachments?.map((path, index) => (
+                      <a 
+                        key={index}
+                        href={`http://localhost:3000/${path}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-surface text-primary rounded-lg hover:bg-accent transition duration-300 w-fit"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                        </svg>
+                        View Attachment {index + 1}
+                      </a>
+                    ))}
+                  </div>
                 </div>
               )}
 

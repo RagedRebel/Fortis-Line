@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -6,6 +6,8 @@ import axios from 'axios';
 
 function UserComplaintDetail() {
   const { id } = useParams();
+  const location = useLocation();
+  const trackingCode = location.state?.trackingCode;
   const [complaint, setComplaint] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -23,6 +25,13 @@ function UserComplaintDetail() {
     const formattedDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
     return formattedDate;
   }
+
+  function getFileType(fileName) {
+    if (!fileName) return 'FILE';
+    const ext = fileName.split('.').pop().toUpperCase();
+    return ext;
+  }
+
    function handleFileView(filePath) {
     let normalized = String(filePath || '')
       .replace(/\\/g, '/')
@@ -99,7 +108,7 @@ function UserComplaintDetail() {
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    <span className="font-semibold">ID: {complaint._id || id}</span>
+                    <span className="font-semibold">ID: {trackingCode || complaint._id || id}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -140,7 +149,7 @@ function UserComplaintDetail() {
                         </div>
                       </div>
                       <div className="ml-4">
-                        <p className="text-sm text-gray-600 mb-1">Submission Date</p>
+                        <p className="text-sm text-gray-600 mb-1">Complaint Date</p>
                         <p className="text-xl font-bold text-gray-800">{displayDate(complaint.date)}</p>
                       </div>
                     </div>
@@ -163,7 +172,7 @@ function UserComplaintDetail() {
                 </div>
 
                 {/* Attachments Section */}
-                {complaint.attachment && (
+                {(complaint.attachments?.length > 0 || complaint.attachment) && (
                   <div className="mb-8">
                     <div className="flex items-center mb-4">
                       <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-3">
@@ -174,17 +183,35 @@ function UserComplaintDetail() {
                       <h2 className="text-xl font-bold text-gray-800">Attachments</h2>
                     </div>
                     <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-                      <div className="flex items-center">
-                        <svg className="w-6 h-6 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        <span className="text-sm text-gray-700">{complaint.attachment}</span>
-                      <button
-                        onClick={() => handleFileView(complaint.attachment)}
-                        className="cursor-pointer bg-primary text-white px-4 py-2 mx-2 rounded-lg hover:bg-secondary transition duration-300"
-                      >
-                        View
-                      </button>
+                      <div className="flex flex-col gap-2">
+                        {complaint.attachment && (
+                          <div className="flex items-center">
+                            <svg className="w-6 h-6 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span className="text-sm text-gray-700 truncate max-w-xs">Attachment ({getFileType(complaint.attachment)})</span>
+                            <button
+                              onClick={() => handleFileView(complaint.attachment)}
+                              className="cursor-pointer bg-primary text-white px-4 py-2 mx-2 rounded-lg hover:bg-secondary transition duration-300 text-sm"
+                            >
+                              View
+                            </button>
+                          </div>
+                        )}
+                        {complaint.attachments?.map((path, index) => (
+                          <div key={index} className="flex items-center">
+                            <svg className="w-6 h-6 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span className="text-sm text-gray-700 truncate max-w-xs">Attachment {index + 1} ({getFileType(path)})</span>
+                            <button
+                              onClick={() => handleFileView(path)}
+                              className="cursor-pointer bg-primary text-white px-4 py-2 mx-2 rounded-lg hover:bg-secondary transition duration-300 text-sm"
+                            >
+                              View
+                            </button>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>

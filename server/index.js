@@ -7,6 +7,7 @@ const fs=require("fs")
 const ComplaintModel=require('./models/Complaints')
 const adminRoutes=require('./routes/admin.routes')
 const { upload }=require("./middlewares/multer.middleware")
+const { generateTrackingCode, hmacSha256Hex } = require('./utils/tracking')
 require('dotenv').config()
 
 
@@ -33,22 +34,36 @@ app.use(session({
 
 mongoose.connect(process.env.MONGO_URL || "mongodb://localhost:27017/FortisLine")
 
-app.post("/form",upload.single("attachment"),async (req,res)=>{
+app.post("/form",upload.array("attachments", 3),async (req,res)=>{
   try{
      console.log("Request Body:", req.body); // Debug: Check what's being received
-    console.log("File:", req.file); // Debug: Check file upload
-    // Normalize path to use forward slashes for URLs
-    let filePath=req.file.path.replace(/\\/g, '/');
+    console.log("Files:", req.files); // Debug: Check files upload
+    
+    let attachmentPaths = [];
+    if (req.files && req.files.length > 0) {
+      attachmentPaths = req.files.map(file => file.path.replace(/\\/g, '/'));
+    }
+
+    const trackingSecret = process.env.TRACKING_CODE_SECRET || 'fortisline-dev-tracking-secret'
+    const trackingCode = generateTrackingCode()
+    const trackingCodeHash = hmacSha256Hex(trackingCode, trackingSecret)
     const complaintData = {
      type: req.body.type,
       location: req.body.location,
       date: req.body.date,
       desc: req.body.desc,
-      attachment: filePath
+      attachments: attachmentPaths,
+      trackingCodeHash
     };
     console.log("Complaint Data:", complaintData); 
     const complaint=await ComplaintModel.create(complaintData);
-    res.json(complaint);
+    // Return complaint with plaintext trackingCode shown once
+    res.json({
+      _id: complaint._id,
+      status: complaint.status,
+      createdAt: complaint.createdAt,
+      trackingCode
+    });
   }catch(err){
     res.status(500).json({error:err.message});
   }
@@ -85,6 +100,23 @@ app.get("/complaints", async (req,res)=>{
     res.json(complaints)
   } catch(err) {
     res.status(500).json({ error: err.message })
+  }
+})
+
+// Resolve complaint by tracking code
+app.post('/track', async (req, res) => {
+  try {
+    const { code } = req.body || {}
+    if (!code || typeof code !== 'string') {
+      return res.status(400).json({ message: 'Tracking code required' })
+    }
+    const trackingSecret = process.env.TRACKING_CODE_SECRET || 'fortisline-dev-tracking-secret'
+    const codeHash = hmacSha256Hex(code.trim().toLowerCase(), trackingSecret)
+    const match = await ComplaintModel.findOne({ trackingCodeHash: codeHash })
+    if (!match) return res.status(404).json({ message: 'Not found' })
+    return res.json({ _id: match._id, status: match.status })
+  } catch (err) {
+    res.status(500).json({ message: err.message })
   }
 })
 

@@ -23,9 +23,16 @@ const ComplaintSchema=new mongoose.Schema({
     enum: ['New', 'In Review', 'Resolved','Rejected'],
     default: 'New'
   },
-  attachment: {
+  attachments: {
+    type: [String],
+    default: []
+  },
+  // Deterministic hash of tracking code using server secret (HMAC)
+  trackingCodeHash: {
     type: String,
-    default: null
+    index: true,
+    unique: true,
+    sparse: true
   }
 }, { timestamps: true });
 

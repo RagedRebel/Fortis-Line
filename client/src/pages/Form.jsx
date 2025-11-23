@@ -9,9 +9,9 @@ function FormPage() {
   const [location,setLocation]=useState()
   const [date,setDate]=useState()
   const [desc,setDesc]=useState()
-  const [file,setFile]=useState(false);
+  const [files,setFiles]=useState([]);
   const [submitted, setSubmitted] = useState(false);
-  const [createdId, setCreatedId] = useState('');
+  const [trackingCode, setTrackingCode] = useState('');
   const navigate=useNavigate();
   
 
@@ -55,8 +55,10 @@ function FormPage() {
     formData.append('location',location);
     formData.append('date',date);
     formData.append('desc',desc);
-    if(file){
-      formData.append('attachment',file);
+    if(files.length > 0){
+      Array.from(files).forEach(file => {
+        formData.append('attachments', file);
+      });
     }
     try{
       const result=await axios.post("http://localhost:3000/form",formData,{
@@ -65,9 +67,9 @@ function FormPage() {
         }
 
       });
-      const id = result?.data?._id || ''
-      setCreatedId(id)
-      console.log('Created complaint id:', id)
+      const code = result?.data?.trackingCode || ''
+      setTrackingCode(code)
+      console.log('Created tracking code:', code)
       setSubmitted(true);
     }catch(err){
       console.log(err);
@@ -78,9 +80,28 @@ function FormPage() {
 
 
   const handleFileChange=(e)=>{
-    const selectedFile=e.target.files[0];
-    setFile(selectedFile);
+    const selectedFiles = Array.from(e.target.files);
+    const totalFiles = files.length + selectedFiles.length;
+
+    if (totalFiles > 3) {
+      alert(`You can only upload a maximum of 3 files. You have ${files.length} selected and tried to add ${selectedFiles.length}.`);
+      e.target.value = null; // Reset input
+      return;
     }
+    
+    const validFiles = selectedFiles.filter(file => file.size <= 50 * 1024 * 1024);
+    
+    if (validFiles.length !== selectedFiles.length) {
+      alert("Some files exceed the 50MB limit and were ignored.");
+    }
+
+    setFiles(prevFiles => [...prevFiles, ...validFiles]);
+    e.target.value = null; // Reset input
+  }
+
+  const removeFile = (indexToRemove) => {
+    setFiles(prevFiles => prevFiles.filter((_, index) => index !== indexToRemove));
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-surface text-gray-800">
@@ -98,17 +119,17 @@ function FormPage() {
               <div className="bg-surface border border-accent text-primary p-6 rounded-xl text-center">
                 <div className="text-2xl mb-2">✅</div>
                 <p className="font-semibold">Report submitted successfully! Thank you for taking a stand.</p>
-                {createdId && (
+                {trackingCode && (
                   <div className="mt-3 text-gray-700">
-                    <div className="font-semibold">Your Complaint ID:</div>
-                    <div className="mt-1 font-mono text-sm bg-white inline-block px-3 py-1 rounded border border-secondary">{createdId}</div>
+                    <div className="font-semibold">Your Tracking Code (save this now):</div>
+                    <div className="mt-1 font-mono text-sm bg-white inline-block px-3 py-1 rounded border border-secondary">{trackingCode}</div>
                     <div className="mt-3">
                       <button
                         type="button"
-                        onClick={() => navigator.clipboard?.writeText(createdId)}
+                        onClick={() => navigator.clipboard?.writeText(trackingCode)}
                         className="cursor-pointer px-3 py-1 rounded bg-primary text-white hover:bg-secondary transition duration-300"
                       >
-                        Copy ID
+                        Copy Code
                       </button>
                       <button
                         type="button"
@@ -220,15 +241,43 @@ function FormPage() {
 
                 <div>
                   <label htmlFor="attachment" className="block text-sm font-semibold text-gray-700">
-                    Upload Attachment
+                    Upload Attachments (Max 3, 50MB each)
                   </label>
-                  <input
-                    id="attachment"
-                    type="file"
-                    name="attachment"
-                    onChange={handleFileChange}
-                    className="cursor-pointer mt-2 w-full rounded-xl border-gray-300 focus:border-primary focus:ring-primary shadow-sm file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-accent file:text-primary hover:file:text-secondary file:cursor-pointer"
-                  />
+                  
+                  {files.length < 3 && (
+                    <input
+                      id="attachment"
+                      type="file"
+                      name="attachment"
+                      multiple
+                      onChange={handleFileChange}
+                      className="cursor-pointer mt-2 w-full rounded-xl border-gray-300 focus:border-primary focus:ring-primary shadow-sm file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-accent file:text-primary hover:file:text-secondary file:cursor-pointer"
+                    />
+                  )}
+
+                  {files.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      <p className="text-sm font-medium text-gray-700">Selected Files:</p>
+                      <ul className="space-y-2">
+                        {files.map((file, index) => (
+                          <li key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-lg border border-gray-200">
+                            <span className="text-sm text-gray-600 truncate max-w-[200px] sm:max-w-xs" title={file.name}>{file.name}</span>
+                            <button
+                              type="button"
+                              onClick={() => removeFile(index)}
+                              className="text-red-500 hover:text-red-700 text-sm font-medium px-2"
+                            >
+                              Remove
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  <p className="text-xs text-gray-500 mt-1">
+                    {files.length}/3 files selected
+                  </p>
                 </div>
 
                 <button
