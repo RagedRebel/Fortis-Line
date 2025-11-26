@@ -12,10 +12,22 @@ function FormPage() {
   const [files,setFiles]=useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [trackingCode, setTrackingCode] = useState('');
+  const [yesNoAnswers, setYesNoAnswers] = useState({
+    isVictim: '',
+    isFirstTime: '',
+    isThreatened: '',
+    isOnCampus: '',
+    hasWitnesses: '',
+    isPhysicallyHarmed: '',
+    knowsPerpetrator: ''
+  });
   const navigate=useNavigate();
   
 
-  
+  const handleYesNoChange = (e) => {
+    const { name, value } = e.target;
+    setYesNoAnswers(prev => ({ ...prev, [name]: value }));
+  };
   
   // function formatDate(d){
   //   if(!d) return null;
@@ -55,6 +67,9 @@ function FormPage() {
     formData.append('location',location);
     formData.append('date',date);
     formData.append('desc',desc);
+    Object.entries(yesNoAnswers).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
     if(files.length > 0){
       Array.from(files).forEach(file => {
         formData.append('attachments', file);
@@ -221,6 +236,50 @@ function FormPage() {
                     required
                     className="cursor-pointer mt-2 w-full rounded-xl border-gray-300 focus:border-primary focus:ring-primary shadow-sm px-4 py-2.5"
                   />
+                </div>
+
+                <div className="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                  <h3 className="font-semibold text-gray-800">Additional Details</h3>
+                  
+                  {[
+                    { key: 'isVictim', label: 'Did the ragging incident happen to you?' },
+                    { key: 'isFirstTime', label: 'Was this the first time such an incident occurred?' },
+                    { key: 'isPhysicallyHarmed', label: 'Were you physically harmed?' },
+                    { key: 'isThreatened', label: 'Did anyone threaten or force you?' },
+                    { key: 'isOnCampus', label: 'Did the incident occur inside the campus?' },
+                    { key: 'hasWitnesses', label: 'Were there any witnesses present during the incident?' },
+                    { key: 'knowsPerpetrator', label: 'Do you know the person(s) who committed the ragging?' }
+                  ].map(({ key, label }) => (
+                    <div key={key} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <label className="text-sm text-gray-700">{label}</label>
+                      <div className="flex gap-4">
+                        <label className="inline-flex items-center">
+                          <input
+                            type="radio"
+                            name={key}
+                            value="Yes"
+                            checked={yesNoAnswers[key] === 'Yes'}
+                            onChange={handleYesNoChange}
+                            className="form-radio text-primary focus:ring-primary"
+                            required
+                          />
+                          <span className="ml-2 text-sm">Yes</span>
+                        </label>
+                        <label className="inline-flex items-center">
+                          <input
+                            type="radio"
+                            name={key}
+                            value="No"
+                            checked={yesNoAnswers[key] === 'No'}
+                            onChange={handleYesNoChange}
+                            className="form-radio text-primary focus:ring-primary"
+                            required
+                          />
+                          <span className="ml-2 text-sm">No</span>
+                        </label>
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
                 <div>

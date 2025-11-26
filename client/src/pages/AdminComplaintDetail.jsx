@@ -125,6 +125,31 @@ function ComplaintDetail() {
                 </div>
               </div>
 
+              {/* Additional Details for Admin */}
+              <div className="mb-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <h3 className="font-bold text-gray-800 mb-4">Incident Details</h3>
+                <div className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
+                   {[
+                    { label: 'Is Victim?', value: complaint.isVictim },
+                    { label: 'First Time Incident?', value: complaint.isFirstTime },
+                    { label: 'Was Threatened?', value: complaint.isThreatened },
+                    { label: 'Occurred On Campus?', value: complaint.isOnCampus },
+                    { label: 'Witnesses Present?', value: complaint.hasWitnesses },
+                    { label: 'Physically Harmed?', value: complaint.isPhysicallyHarmed },
+                    { label: 'Knows Perpetrator?', value: complaint.knowsPerpetrator },
+                  ].map((item, idx) => (
+                    item.value && (
+                      <div key={idx} className="flex justify-between items-center border-b border-gray-200 pb-2 last:border-0">
+                        <span className="text-gray-600 text-sm">{item.label}</span>
+                        <span className={`font-semibold text-sm px-2 py-0.5 rounded ${item.value === 'Yes' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                          {item.value}
+                        </span>
+                      </div>
+                    )
+                  ))}
+                </div>
+              </div>
+
               <div className="mb-8">
                 <p className="text-sm text-gray-500 mb-1">Description</p>
                 <p className="text-gray-700 leading-relaxed">{complaint.desc}</p>

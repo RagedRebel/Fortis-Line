@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Lexend:wght@100..900&family=Space+Grotesk:wght@300..700&family=Zen+Dots&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -12,5 +13,10 @@ html, body, #root {
 	background-color: var(--color-surface);
 	color: rgb(31 41 55); /* Tailwind gray-800 */
 	min-height: 100%;
+	font-family: "Lexend", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Zen Dots", cursive;
 }
 

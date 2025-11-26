@@ -52,6 +52,13 @@ app.post("/form",upload.array("attachments", 3),async (req,res)=>{
       location: req.body.location,
       date: req.body.date,
       desc: req.body.desc,
+      isVictim: req.body.isVictim,
+      isFirstTime: req.body.isFirstTime,
+      isThreatened: req.body.isThreatened,
+      isOnCampus: req.body.isOnCampus,
+      hasWitnesses: req.body.hasWitnesses,
+      isPhysicallyHarmed: req.body.isPhysicallyHarmed,
+      knowsPerpetrator: req.body.knowsPerpetrator,
       attachments: attachmentPaths,
       trackingCodeHash
     };

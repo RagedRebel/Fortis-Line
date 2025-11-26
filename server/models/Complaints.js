@@ -18,6 +18,13 @@ const ComplaintSchema=new mongoose.Schema({
     type: String,
     required: true
   },
+  isVictim: { type: String, enum: ['Yes', 'No'], required: false },
+  isFirstTime: { type: String, enum: ['Yes', 'No'], required: false },
+  isThreatened: { type: String, enum: ['Yes', 'No'], required: false },
+  isOnCampus: { type: String, enum: ['Yes', 'No'], required: false },
+  hasWitnesses: { type: String, enum: ['Yes', 'No'], required: false },
+  isPhysicallyHarmed: { type: String, enum: ['Yes', 'No'], required: false },
+  knowsPerpetrator: { type: String, enum: ['Yes', 'No'], required: false },
   status:{
     type: String,
     enum: ['New', 'In Review', 'Resolved','Rejected'],

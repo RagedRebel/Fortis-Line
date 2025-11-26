@@ -34,7 +34,6 @@ Create `server/.env`:
 MONGO_URL=mongodb://localhost:27017/FortisLine
 SESSION_SECRET=replace_with_strong_session_secret
 TRACKING_CODE_SECRET=replace_with_strong_tracking_secret
-# CLOUDINARY_URL=cloudinary://<key>:<secret>@<cloud_name> (if using later)
 ```
 
 ## Installation & Development

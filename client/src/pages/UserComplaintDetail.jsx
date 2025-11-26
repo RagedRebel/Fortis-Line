@@ -156,6 +156,27 @@ function UserComplaintDetail() {
                   </div>
                 </div>
 
+                {/* Additional Details Grid */}
+                <div className="grid sm:grid-cols-2 gap-4 mb-8 bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                  <h3 className="sm:col-span-2 font-bold text-gray-800 mb-2">Additional Information</h3>
+                  {[
+                    { label: 'Victim?', value: complaint.isVictim },
+                    { label: 'First Time?', value: complaint.isFirstTime },
+                    { label: 'Threatened?', value: complaint.isThreatened },
+                    { label: 'On Campus?', value: complaint.isOnCampus },
+                    { label: 'Witnesses?', value: complaint.hasWitnesses },
+                    { label: 'Physically Harmed?', value: complaint.isPhysicallyHarmed },
+                    { label: 'Knows Perpetrator?', value: complaint.knowsPerpetrator },
+                  ].map((item, idx) => (
+                    item.value && (
+                      <div key={idx} className="flex justify-between border-b border-gray-200 pb-2 last:border-0">
+                        <span className="text-gray-600 text-sm">{item.label}</span>
+                        <span className="font-semibold text-gray-800">{item.value}</span>
+                      </div>
+                    )
+                  ))}
+                </div>
+
                 {/* Description Section */}
                 <div className="mb-8">
                   <div className="flex items-center mb-4">
@@ -226,7 +247,7 @@ function UserComplaintDetail() {
                     <div>
                       <p className="font-semibold text-primary mb-1">What happens next?</p>
                       <p className="text-gray-700 text-sm leading-relaxed">
-                        Your complaint has been received and will be reviewed by our Anti-Ragging Committee. You will be contacted if any additional information is needed. All complaints are handled with strict confidentiality.
+                        Your complaint has been received and will be reviewed by our Anti-Ragging Committee and is now under review. All complaints are handled with strict confidentiality.
                       </p>
                     </div>
                   </div>
