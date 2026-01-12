@@ -42,13 +42,13 @@ function UserComplaintDetail() {
       ? normalized
       : `uploads/${normalized}`;
 
-    window.open(`http://localhost:3000/${encodeURI(urlPath)}`, '_blank', 'noopener');
+    window.open(`${import.meta.env.VITE_API_URL}/${encodeURI(urlPath)}`, '_blank', 'noopener');
   }
 
 
   useEffect(() => {
     setLoading(true);
-    axios.get("http://localhost:3000/getComplaint/" + id)
+    axios.get(`${import.meta.env.VITE_API_URL}/getComplaint/` + id)
       .then(result => {
         setComplaint(result.data);
         setLoading(false);

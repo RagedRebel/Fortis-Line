@@ -38,8 +38,8 @@ function ComplaintDetail() {
 }
 
   useEffect(()=>{
-  axios.get("http://localhost:3000/admin/me", { withCredentials: true })
-    .then(() => axios.get("http://localhost:3000/admin/complaints/"+id, { withCredentials: true }))
+  axios.get(`${import.meta.env.VITE_API_URL}/admin/me`, { withCredentials: true })
+    .then(() => axios.get(`${import.meta.env.VITE_API_URL}/admin/complaints/`+id, { withCredentials: true }))
     .then(result => {
       setComplaint(result.data);
       setNewStatus(result.data?.status || 'In Review')
@@ -59,7 +59,7 @@ function ComplaintDetail() {
     try {
       setUpdating(true)
       const res = await axios.patch(
-        `http://localhost:3000/admin/complaints/${id}/status`,
+        `${import.meta.env.VITE_API_URL}/admin/complaints/${id}/status`,
         { status: newStatus },
         { withCredentials: true }
       )
@@ -161,7 +161,7 @@ function ComplaintDetail() {
                   <div className="flex flex-col gap-2">
                     {complaint.attachment && (
                        <a 
-                        href={`http://localhost:3000/${complaint.attachment}`}
+                        href={`${import.meta.env.VITE_API_URL}/${complaint.attachment}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-surface text-primary rounded-lg hover:bg-accent transition duration-300 w-fit"
@@ -175,7 +175,7 @@ function ComplaintDetail() {
                     {complaint.attachments?.map((path, index) => (
                       <a 
                         key={index}
-                        href={`http://localhost:3000/${path}`}
+                        href={`${import.meta.env.VITE_API_URL}/${path}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-surface text-primary rounded-lg hover:bg-accent transition duration-300 w-fit"

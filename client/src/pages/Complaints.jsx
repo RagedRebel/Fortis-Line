@@ -10,9 +10,9 @@ function Complaints() {
 
 
 useEffect(()=>{
-  axios.get("http://localhost:3000/admin/me", { withCredentials: true })
+  axios.get(`${import.meta.env.VITE_API_URL}/admin/me`, { withCredentials: true })
     .then(() => {
-      return axios.get("http://localhost:3000/admin/complaints", { withCredentials: true })
+      return axios.get(`${import.meta.env.VITE_API_URL}/admin/complaints`, { withCredentials: true })
     })
     .then(result => setComplaints(result.data))
     .catch(err => {
@@ -24,7 +24,7 @@ useEffect(()=>{
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3000/admin/logout', {}, { withCredentials: true })
+      await axios.post(`${import.meta.env.VITE_API_URL}/admin/logout`, {}, { withCredentials: true })
       navigate('/admin')
     } catch (err) {
       // No-op: even if logout fails, send user to login

@@ -22,7 +22,7 @@ function AdminLogin() {
     e.preventDefault()
     setError('')
     try {
-      await axios.post('http://localhost:3000/admin/login', formData, { withCredentials: true })
+      await axios.post(`${import.meta.env.VITE_API_URL}/admin/login`, formData, { withCredentials: true })
       navigate('/complaints')
     } catch (err) {
       setError(err?.response?.data?.message || 'Login failed')

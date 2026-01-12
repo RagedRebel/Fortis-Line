@@ -20,7 +20,7 @@ function TrackComplaint() {
       return;
     }
     setSubmitting(true);
-    axios.post('http://localhost:3000/track', { code: trimmed.toLowerCase() })
+    axios.post(`${import.meta.env.VITE_API_URL}/track`, { code: trimmed.toLowerCase() })
       .then((res) => {
         const id = res?.data?._id;
         if (id) {

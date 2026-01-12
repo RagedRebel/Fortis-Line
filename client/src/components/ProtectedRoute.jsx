@@ -7,7 +7,7 @@ export default function ProtectedRoute() {
 
   useEffect(() => {
     let mounted = true
-    axios.get('http://localhost:3000/admin/me', { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_URL}/admin/me`, { withCredentials: true })
       .then(() => mounted && setStatus('allowed'))
       .catch(() => mounted && setStatus('denied'))
     return () => { mounted = false }
