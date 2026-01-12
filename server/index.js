@@ -139,6 +139,14 @@ app.get("/getComplaint/:id", async(req,res)=>{
 
 })
 
+// Serve React files (JS, CSS, images)
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// For any unknown route, send React's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+});
+
 // Admin routes (session-based auth)
 app.use('/admin', adminRoutes)
 app.listen(3000,()=>{

@@ -1,0 +1,13 @@
+{
+  "name": "fortisline",
+  "version": "1.0.0",
+  "scripts": {
+    "install-all": "cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm install && npm run build",
+    "start": "cd server && node index.js",
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
