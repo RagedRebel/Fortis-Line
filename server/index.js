@@ -13,8 +13,17 @@ require('dotenv').config()
 
 
 const app=express()
+const isProduction = process.env.NODE_ENV === 'production'
+if (isProduction) {
+  // Required on Render/behind proxies so secure cookies work correctly.
+  app.set('trust proxy', 1)
+}
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  // In production, reflect the request Origin. For stricter control, set CORS_ORIGIN.
+  origin: process.env.CORS_ORIGIN
+    ? process.env.CORS_ORIGIN.split(',').map((v) => v.trim()).filter(Boolean)
+    : (isProduction ? true : 'http://localhost:5173'),
   credentials: true
 }))
 app.use(express.json())
@@ -26,13 +35,16 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
     maxAge: 1000 * 60 * 60 * 8
   }
 }))
 
 mongoose.connect(process.env.MONGO_URL || "mongodb://localhost:27017/FortisLine")
+
+// Admin routes (session-based auth)
+app.use('/admin', adminRoutes)
 
 app.post("/form",upload.array("attachments", 3),async (req,res)=>{
   try{
@@ -143,12 +155,11 @@ app.get("/getComplaint/:id", async(req,res)=>{
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // For any unknown route, send React's index.html
-app.get('*', (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
 });
 
-// Admin routes (session-based auth)
-app.use('/admin', adminRoutes)
-app.listen(3000,()=>{
-    console.log("Server is running")
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`)
 })
