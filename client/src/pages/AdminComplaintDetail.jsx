@@ -155,37 +155,71 @@ function ComplaintDetail() {
                 <p className="text-gray-700 leading-relaxed">{complaint.desc}</p>
               </div>
 
-              {(complaint.attachments?.length > 0 || complaint.attachment) && (
+              {complaint.attachments?.length > 0 && (
                 <div className="mb-8">
-                  <p className="text-sm text-gray-500 mb-1">Attachments:</p>
-                  <div className="flex flex-col gap-2">
-                    {complaint.attachment && (
-                       <a 
-                        href={`${import.meta.env.VITE_API_URL}/${complaint.attachment}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-surface text-primary rounded-lg hover:bg-accent transition duration-300 w-fit"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                        </svg>
-                        View Attachment (Legacy)
-                      </a>
-                    )}
-                    {complaint.attachments?.map((path, index) => (
-                      <a 
-                        key={index}
-                        href={`${import.meta.env.VITE_API_URL}/${path}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-surface text-primary rounded-lg hover:bg-accent transition duration-300 w-fit"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                        </svg>
-                        View Attachment {index + 1}
-                      </a>
-                    ))}
+                  <p className="text-sm text-gray-500 mb-3">Attachments:</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {complaint.attachments.map((attachment, index) => {
+                      const isImage = attachment.resourceType === 'image' || attachment.format?.match(/jpg|jpeg|png|gif|webp|bmp|svg/i);
+                      const isVideo = attachment.resourceType === 'video' || attachment.format?.match(/mp4|mpeg|mov|avi|webm|mkv/i);
+                      const isPDF = attachment.format === 'pdf';
+                      const attachmentUrl = typeof attachment === 'string' ? attachment : attachment.url;
+                      const fileName = attachment.originalName || `Attachment ${index + 1}`;
+                      const fileFormat = attachment.format ? attachment.format.toUpperCase() : 'FILE';
+
+                      return (
+                        <div key={index} className="border border-gray-200 rounded-lg p-4 bg-surface hover:shadow-md transition-shadow">
+                          {isImage && (
+                            <div className="mb-3">
+                              <img 
+                                src={attachmentUrl} 
+                                alt={fileName}
+                                className="w-full h-40 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                                onClick={() => window.open(attachmentUrl, '_blank')}
+                              />
+                            </div>
+                          )}
+                          {isVideo && (
+                            <div className="mb-3">
+                              <video 
+                                src={attachmentUrl} 
+                                controls
+                                className="w-full h-40 rounded-lg"
+                              >
+                                Your browser does not support the video tag.
+                              </video>
+                            </div>
+                          )}
+                          {!isImage && !isVideo && (
+                            <div className="mb-3 flex items-center justify-center h-24 bg-gray-100 rounded-lg">
+                              <div className="text-center">
+                                <svg className="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                                <span className="text-sm font-semibold text-gray-600">{fileFormat}</span>
+                              </div>
+                            </div>
+                          )}
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-800 truncate">{fileName}</p>
+                              <p className="text-xs text-gray-500">{fileFormat}</p>
+                            </div>
+                            <a 
+                              href={attachmentUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="cursor-pointer ml-2 inline-flex items-center gap-1 px-3 py-1.5 bg-primary text-white rounded-lg hover:bg-secondary transition duration-300 text-sm"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                              Open
+                            </a>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}

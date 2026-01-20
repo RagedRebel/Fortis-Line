@@ -32,17 +32,13 @@ function UserComplaintDetail() {
     return ext;
   }
 
-   function handleFileView(filePath) {
-    let normalized = String(filePath || '')
-      .replace(/\\/g, '/')
-      .replace(/^\/+/, '');
-    if (!normalized) return;
-
-    const urlPath = normalized.startsWith('uploads/')
-      ? normalized
-      : `uploads/${normalized}`;
-
-    window.open(`${import.meta.env.VITE_API_URL}/${encodeURI(urlPath)}`, '_blank', 'noopener');
+  function getFileFormat(attachment) {
+    if (attachment.format) return attachment.format.toUpperCase();
+    if (attachment.url) {
+      const ext = attachment.url.split('.').pop().split('?')[0];
+      return ext.toUpperCase();
+    }
+    return 'FILE';
   }
 
 
@@ -193,7 +189,7 @@ function UserComplaintDetail() {
                 </div>
 
                 {/* Attachments Section */}
-                {(complaint.attachments?.length > 0 || complaint.attachment) && (
+                {complaint.attachments?.length > 0 && (
                   <div className="mb-8">
                     <div className="flex items-center mb-4">
                       <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-3">
@@ -204,35 +200,74 @@ function UserComplaintDetail() {
                       <h2 className="text-xl font-bold text-gray-800">Attachments</h2>
                     </div>
                     <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-                      <div className="flex flex-col gap-2">
-                        {complaint.attachment && (
-                          <div className="flex items-center">
-                            <svg className="w-6 h-6 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <span className="text-sm text-gray-700 truncate max-w-xs">Attachment ({getFileType(complaint.attachment)})</span>
-                            <button
-                              onClick={() => handleFileView(complaint.attachment)}
-                              className="cursor-pointer bg-primary text-white px-4 py-2 mx-2 rounded-lg hover:bg-secondary transition duration-300 text-sm"
-                            >
-                              View
-                            </button>
-                          </div>
-                        )}
-                        {complaint.attachments?.map((path, index) => (
-                          <div key={index} className="flex items-center">
-                            <svg className="w-6 h-6 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <span className="text-sm text-gray-700 truncate max-w-xs">Attachment {index + 1} ({getFileType(path)})</span>
-                            <button
-                              onClick={() => handleFileView(path)}
-                              className="cursor-pointer bg-primary text-white px-4 py-2 mx-2 rounded-lg hover:bg-secondary transition duration-300 text-sm"
-                            >
-                              View
-                            </button>
-                          </div>
-                        ))}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {complaint.attachments.map((attachment, index) => {
+                          const isImage = attachment.resourceType === 'image' || attachment.format?.match(/jpg|jpeg|png|gif|webp|bmp|svg/i);
+                          const isVideo = attachment.resourceType === 'video' || attachment.format?.match(/mp4|mpeg|mov|avi|webm|mkv/i);
+                          const isPDF = attachment.format === 'pdf';
+                          const attachmentUrl = typeof attachment === 'string' ? attachment : attachment.url;
+                          const fileName = attachment.originalName || `Attachment ${index + 1}`;
+                          const fileFormat = getFileFormat(attachment);
+
+                          return (
+                            <div key={index} className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow">
+                              {isImage && (
+                                <div className="mb-3">
+                                  <img 
+                                    src={attachmentUrl} 
+                                    alt={fileName}
+                                    className="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                                    onClick={() => window.open(attachmentUrl, '_blank')}
+                                  />
+                                </div>
+                              )}
+                              {isVideo && (
+                                <div className="mb-3">
+                                  <video 
+                                    src={attachmentUrl} 
+                                    controls
+                                    className="w-full h-48 rounded-lg"
+                                  >
+                                    Your browser does not support the video tag.
+                                  </video>
+                                </div>
+                              )}
+                              {!isImage && !isVideo && (
+                                <div className="mb-3 flex items-center justify-center h-32 bg-gradient-to-br from-primary to-secondary rounded-lg">
+                                  <div className="text-center">
+                                    <svg className="w-16 h-16 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    </svg>
+                                    <span className="text-lg font-bold text-white">{fileFormat}</span>
+                                  </div>
+                                </div>
+                              )}
+                              <div className="space-y-2">
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-semibold text-gray-800 truncate" title={fileName}>{fileName}</p>
+                                    <p className="text-xs text-gray-500 mt-0.5">
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">
+                                        {fileFormat}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                                <a
+                                  href={attachmentUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="cursor-pointer w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-white rounded-lg hover:bg-secondary transition-all duration-300 font-medium text-sm"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                  </svg>
+                                  Open File
+                                </a>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>

@@ -31,7 +31,13 @@ const ComplaintSchema=new mongoose.Schema({
     default: 'New'
   },
   attachments: {
-    type: [String],
+    type: [{
+      url: String,
+      publicId: String,
+      resourceType: String,
+      format: String,
+      originalName: String
+    }],
     default: []
   },
   // Deterministic hash of tracking code using server secret (HMAC)

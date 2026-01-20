@@ -6,7 +6,7 @@ const path=require("path")
 const fs=require("fs")
 const ComplaintModel=require('./models/Complaints')
 const adminRoutes=require('./routes/admin.routes')
-const { upload }=require("./middlewares/multer.middleware")
+const { upload, uploadToCloudinary }=require("./middlewares/multer.middleware")
 const { generateTrackingCode, hmacSha256Hex } = require('./utils/tracking')
 require('dotenv').config()
 
@@ -51,9 +51,28 @@ app.post("/form",upload.array("attachments", 3),async (req,res)=>{
      console.log("Request Body:", req.body); // Debug: Check what's being received
     console.log("Files:", req.files); // Debug: Check files upload
     
-    let attachmentPaths = [];
+    let attachmentUrls = [];
+    
+    // Upload files to Cloudinary
     if (req.files && req.files.length > 0) {
-      attachmentPaths = req.files.map(file => file.path.replace(/\\/g, '/'));
+      const uploadPromises = req.files.map(file => 
+        uploadToCloudinary(file.buffer, file.originalname, file.mimetype)
+      );
+      
+      try {
+        const uploadResults = await Promise.all(uploadPromises);
+        attachmentUrls = uploadResults.map(result => ({
+          url: result.secure_url,
+          publicId: result.public_id,
+          resourceType: result.resource_type,
+          format: result.format,
+          originalName: result.original_filename || 'file'
+        }));
+        console.log("Uploaded to Cloudinary:", attachmentUrls);
+      } catch (uploadError) {
+        console.error("Cloudinary upload error:", uploadError);
+        return res.status(500).json({ error: "Failed to upload files to cloud storage" });
+      }
     }
 
     const trackingSecret = process.env.TRACKING_CODE_SECRET || 'fortisline-dev-tracking-secret'
@@ -71,7 +90,7 @@ app.post("/form",upload.array("attachments", 3),async (req,res)=>{
       hasWitnesses: req.body.hasWitnesses,
       isPhysicallyHarmed: req.body.isPhysicallyHarmed,
       knowsPerpetrator: req.body.knowsPerpetrator,
-      attachments: attachmentPaths,
+      attachments: attachmentUrls,
       trackingCodeHash
     };
     console.log("Complaint Data:", complaintData); 
@@ -84,6 +103,7 @@ app.post("/form",upload.array("attachments", 3),async (req,res)=>{
       trackingCode
     });
   }catch(err){
+    console.error("Error creating complaint:", err);
     res.status(500).json({error:err.message});
   }
 })
